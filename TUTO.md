@@ -8,6 +8,8 @@ Pas besoin de connaître l'informatique : suis les étapes dans l'ordre.
 2. Ouvre le fichier téléchargé.
 3. **Important :** en bas de la première fenêtre, coche **« Add python.exe to PATH »**, puis clique sur **Install Now**.
 
+> 💡 Si l'installation du bot échoue plus tard (étape 3), ta version de Python est peut-être trop récente : installe **Python 3.13** depuis la même page.
+
 ## 2. Télécharger le bot
 
 1. En haut de cette page GitHub, clique sur le bouton vert **Code**, puis **Download ZIP**.
@@ -15,7 +17,11 @@ Pas besoin de connaître l'informatique : suis les étapes dans l'ordre.
 
 ## 3. Installer le bot (une seule fois)
 
-Dans le dossier du bot, double-clique sur **`INSTALLER.bat`**. Une fenêtre noire s'ouvre et installe ce qu'il faut (1 à 3 minutes). Attends le message **« Installation terminée »**, puis ferme la fenêtre.
+Dans le dossier du bot, double-clique sur **`INSTALLER.bat`** (pas besoin du mode administrateur). Une fenêtre noire s'ouvre et installe ce qu'il faut (1 à 3 minutes). Attends le message **« Installation terminée »**, puis ferme la fenêtre.
+
+> 🛡️ Si Windows affiche **« Windows a protégé votre ordinateur »**, clique sur **Informations complémentaires**, puis **Exécuter quand même**. C'est normal pour un fichier téléchargé.
+
+C'est fait une fois pour toutes : ensuite, tu n'utilises plus que `0_LANCER.bat`.
 
 ## 4. Régler le jeu
 
@@ -25,7 +31,7 @@ Dans le dossier du bot, double-clique sur **`INSTALLER.bat`**. Une fenêtre noir
 ## 5. Lancer le bot
 
 1. Lance le jeu et va dans la ville (l'écran avec le journal des quêtes en haut à droite).
-2. Double-clique sur **`0_LANCER.bat`** et clique sur **Oui** quand Windows demande l'autorisation.
+2. **Fais un clic droit** sur **`0_LANCER.bat`** → **Exécuter en tant qu'administrateur**, puis clique sur **Oui**. ⚠️ Obligatoire : le jeu tourne en administrateur, sans ça le bot ne peut pas cliquer.
 3. **Première fois seulement :** la fenêtre noire te demande quelle quête suivre. Tape **1** pour la quête principale (l'histoire), puis Entrée.
 4. Le bot démarre tout seul au bout de 3 secondes.
 
@@ -56,7 +62,7 @@ Quand la 1re ligne du journal affiche **« Mise à jour programmée »**, appuie
 - Mets la mise en veille du PC sur **Jamais** (Paramètres → Système → Alimentation).
 - Tu peux **éteindre l'écran** avec son bouton, ça ne gêne pas le bot.
 - Ne verrouille pas la session (pas de Windows + L).
-- Le matin, ouvre **`rapport.txt`** : il résume la nuit (combats, victoires, arrêts).
+- Le matin, tu peux ouvrir **`rapport.txt`** (à côté de `0_LANCER.bat`) : il résume la nuit (combats, victoires, arrêts). C'est juste pour information.
 
 ## Problèmes fréquents
 
@@ -64,7 +70,7 @@ Quand la 1re ligne du journal affiche **« Mise à jour programmée »**, appuie
 | --- | --- |
 | « Python est introuvable » | Réinstalle Python en cochant bien **« Add python.exe to PATH »**. |
 | Le bot ne démarre pas | Lance d'abord **`INSTALLER.bat`**, puis **`0_LANCER.bat`**. |
-| Le bot ne clique pas | Accepte la demande d'autorisation (le jeu tourne en administrateur, le bot aussi). |
+| Le bot ne clique pas | Relance **`0_LANCER.bat`** avec un clic droit → **Exécuter en tant qu'administrateur**. |
 | Le bot clique à côté | Vérifie la résolution du jeu : **1920 × 1080**. |
 | Le bot s'arrête | Normal sur une défaite, la cuisine ou plus de potions : regarde la fin de la fenêtre noire, corrige à la main, puis **F8** pour relancer. |
 | Le bot déplace tes meilleurs persos | Refais l'étape 6 (**F11** sur un écran d'équipe). |

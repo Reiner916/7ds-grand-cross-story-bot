@@ -42,7 +42,7 @@ Projet personnel d'**Amir Chouchane**, étudiant en BTS SIO.
 1. 🐍 Installer [Python](https://www.python.org/downloads/) en cochant **« Add python.exe to PATH »**
 2. 📦 **Code → Download ZIP**, puis décompresser
 3. 🛠️ Double-cliquer sur **`INSTALLER.bat`** (une seule fois)
-4. 🎮 Lancer le jeu en **1920 × 1080, en français**, puis double-cliquer sur **`0_LANCER.bat`**
+4. 🎮 Lancer le jeu en **1920 × 1080, en français**, puis **clic droit sur `0_LANCER.bat` → Exécuter en tant qu'administrateur**
 
 Au premier lancement, le bot demande quelle quête suivre. **Une seule fois**, ouvre un écran d'équipe avec tes 4 meilleurs persos et appuie sur **F11**.
 
