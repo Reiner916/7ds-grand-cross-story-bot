@@ -1,79 +1,82 @@
-# Bot mode histoire · 7DS Grand Cross
+<p align="center">
+  <img src="docs/banniere.png" alt="Bot mode histoire 7DS Grand Cross" width="100%" />
+</p>
 
-Bot qui joue **tout seul au mode histoire** de *The Seven Deadly Sins: Grand Cross* (client PC officiel de Netmarble) : il suit la quête, parle aux personnages, passe les dialogues, compose l'équipe, lance les combats et ramasse les récompenses. On le lance le soir, on éteint l'écran, et l'histoire avance pendant la nuit.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3-2dd4bf?style=flat-square&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/YOLO11n-ONNX-2dd4bf?style=flat-square" alt="YOLO11n ONNX" />
+  <img src="https://img.shields.io/badge/OpenCV-vision-38bdf8?style=flat-square&logo=opencv&logoColor=white" alt="OpenCV" />
+  <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-38bdf8?style=flat-square&logo=windows&logoColor=white" alt="Windows" />
+  <img src="https://img.shields.io/badge/licence-MIT-7f969c?style=flat-square" alt="Licence MIT" />
+</p>
 
-Il **voit l'écran comme un joueur** : un détecteur d'objets (YOLO) entraîné sur plus de 1 400 images du jeu repère les boutons, les bulles de quête et les menus, puis le bot décide quoi faire et clique. Il ne lit ni ne modifie rien dans le jeu.
+> 🤖 Un bot qui joue **tout seul au mode histoire** de *The Seven Deadly Sins: Grand Cross* (client PC Netmarble).
+> Il **regarde l'écran comme un joueur** : un détecteur YOLO repère les boutons, les bulles de quête et les menus, le bot décide et clique. Il ne lit ni ne modifie rien dans le jeu.
 
 Projet personnel d'**Amir Chouchane**, étudiant en BTS SIO.
 
-![Ce que voit le bot, étape par étape](docs/demo.gif)
+<p align="center"><img src="docs/demo.gif" alt="Ce que voit le bot, étape par étape" width="85%" /></p>
 
-## Résultats
+## 📊 Résultats
 
 | | |
 | --- | --- |
-| Plus longue session sans intervention | **8 h 53** (117 victoires, 64 récompenses de quête) |
-| Fiabilité du détecteur sur de vraies captures | **0,99** (mAP50, 180 captures de contrôle) |
-| Part du mode histoire automatisée | **environ 90 à 95 %** (voir [Limites](#limites)) |
-| Analyse d'un écran | environ 0,2 s sur un processeur ordinaire |
+| ⏱️ Plus longue session sans intervention | **8 h 53**, avec 117 victoires et 64 récompenses de quête |
+| 🎯 Fiabilité du détecteur | **0,99** (mAP50 sur 180 vraies captures de contrôle) |
+| 📖 Mode histoire automatisé | **environ 90 à 95 %** (voir [Limites](#️-limites)) |
+| ⚡ Analyse d'un écran | environ **0,1 à 0,2 s** sur un processeur ordinaire |
 
-## Ce que fait le bot
+## ✨ Ce qu'il fait
 
-**Dans le jeu**
-- Relance la quête suivie depuis le journal (quête principale ou quête secondaire, au choix)
-- Repère les bulles de quête au-dessus des personnages, quelle que soit leur forme ou leur couleur (« ? », « ! », loupe, épées, bulles lumineuses) et ignore les bulles de discussion inutiles
-- Passe les dialogues et les cinématiques (SKIP, PASSER), y compris pendant les attaques spéciales
-- Écran d'équipe : *Choix auto*, puis **range les héros imposés par la quête en remplaçant** pour garder ses meilleurs personnages au combat ; emprunte le héros manquant si besoin
-- Utilise une potion d'endurance quand il n'y en a plus, valide les victoires, ferme les récompenses, gère les changements de chapitre et les nouvelles aventures
+- 🗺️ **Suit la quête** du journal (principale ou secondaire) et parle aux personnages
+- 💬 **Passe les dialogues** et les cinématiques, même pendant les attaques spéciales
+- 🛡️ **Compose l'équipe** : *Choix auto*, puis place les héros imposés par la quête **sans toucher à tes 4 meilleurs persos**
+- ⚔️ **Lance les combats**, valide les victoires, ramasse les récompenses, utilise une potion d'endurance si besoin
+- 🔁 **Se débloque tout seul** : reprise automatique, anti-boucle, fausses bulles ignorées
+- 📝 **Rapport de session** le matin (`rapport.txt`) : durée, combats, victoires, arrêts et leur cause
 
-**Sécurités**
-- **Reprise automatique** quand rien ne bouge (clics de dégagement, relance de la quête) avant de s'arrêter
-- **Anti-boucle** : un bouton cliqué sans effet ou une fausse bulle sont repérés puis ignorés
-- S'arrête proprement sur une défaite, l'écran de cuisine ou des potions épuisées, avec une capture d'écran pour comprendre
-- **Rapport de session** (`rapport.txt`) : durée, combats, victoires, potions utilisées, arrêts et leur cause
+## 🚀 Installation
 
-## Installer et lancer
+> 📘 Tutoriel pas à pas, sans connaissance en informatique : **[TUTO.md](TUTO.md)**
 
-Le tutoriel pas à pas est ici : **[TUTO.md](TUTO.md)**. En résumé :
+1. 🐍 Installer [Python](https://www.python.org/downloads/) en cochant **« Add python.exe to PATH »**
+2. 📦 **Code → Download ZIP**, puis décompresser
+3. 🛠️ Double-cliquer sur **`INSTALLER.bat`** (une seule fois)
+4. 🎮 Lancer le jeu en **1920 × 1080, en français**, puis double-cliquer sur **`0_LANCER.bat`**
 
-1. Installer [Python](https://www.python.org/downloads/) en cochant **« Add python.exe to PATH »**
-2. Télécharger ce dépôt (**Code → Download ZIP**) et le décompresser
-3. Double-cliquer sur **`INSTALLER.bat`** (une seule fois)
-4. Lancer le jeu en **1920 × 1080, en français**, puis double-cliquer sur **`0_LANCER.bat`** : le bot démarre tout seul
+Au premier lancement, le bot demande quelle quête suivre. **Une seule fois**, ouvre un écran d'équipe avec tes 4 meilleurs persos et appuie sur **F11**.
 
-Au premier lancement, le bot demande quelle quête suivre. Il faut aussi, **une seule fois**, ouvrir un écran d'équipe dans le jeu avec ses 4 meilleurs personnages et appuyer sur **F11** : le bot ne les déplacera jamais.
+## ⌨️ Touches
 
 | Touche | Action |
-| --- | --- |
-| F8 | Pause / reprise |
-| F9 | Quitter (écrit le rapport) |
-| F11 | Enregistrer son équipe (sur un écran d'équipe) |
-| F12 | Passer de la quête principale à la quête secondaire et inversement |
-| F6 | Capture d'écran manuelle |
-| F7 | Changer l'endroit du « clic dans le vide » |
-| F10 | Diagnostic : ce que le bot reconnaît à l'écran |
+| :---: | --- |
+| **F8** | ⏯️ Pause / reprise |
+| **F9** | ⏹️ Quitter (écrit le rapport) |
+| **F11** | 🛡️ Enregistrer son équipe |
+| **F12** | 🔀 Quête principale ↔ secondaire |
+| **F6** | 📸 Capture d'écran |
+| **F7** | 🎯 Changer l'endroit du « clic dans le vide » |
+| **F10** | 🔍 Diagnostic : ce que le bot reconnaît |
 
-## Comment ça marche
+## ⚙️ Comment ça marche
 
-![Schéma de fonctionnement](docs/fonctionnement.png)
+<p align="center"><img src="docs/fonctionnement.png" alt="Schéma de fonctionnement du bot" width="100%" /></p>
 
-- **Détecteur YOLO11n** (Ultralytics) entraîné sur 15 types d'éléments, exporté au format **ONNX** pour tourner sans carte graphique. Le jeu de données mélange de vraies captures et des **images fabriquées** (un bouton ou une bulle collé ailleurs, à une autre taille, une autre teinte) pour couvrir les cas rares.
-- **Comparaison d'image exacte** (OpenCV) pour les écrans qui ne changent jamais : victoire, défaite, récompenses, bouton SKIP, combat en cours, bandeau « Héros requis » et portraits de l'équipe. C'est plus fiable que le détecteur dans ces cas précis.
-- **Logique de décision** : ordre de priorité des actions, temps d'attente adaptés (laisser le personnage marcher, attendre la fin d'une animation), détection des boucles et reprises.
-- **Pilotage de Windows** par l'API Win32 (fenêtre du jeu, clics, glisser-déposer, raccourcis clavier lus en continu).
-- **Amélioration continue** : à chaque blocage, le bot garde une capture. Ces captures sont étiquetées, enrichies de variantes, puis le détecteur est réentraîné sur la carte graphique. **Un garde-fou** compare le nouveau détecteur à l'ancien sur les vraies captures et ne l'installe que s'il fait au moins aussi bien. Les scripts sont dans [`outils/`](outils/).
+- 🧠 **Détecteur YOLO11n** entraîné sur 15 types d'éléments et exporté en **ONNX** : il tourne sans carte graphique
+- 🖼️ **Comparaison d'image exacte** (OpenCV) pour les écrans qui ne changent jamais : victoire, défaite, SKIP, combat, héros requis
+- 🔄 **Amélioration continue** : chaque blocage donne une capture, qui est étiquetée puis sert à réentraîner le détecteur. Un **garde-fou** ne l'installe que s'il fait au moins aussi bien que l'ancien ([`outils/`](outils/))
 
-## Limites
+## ⚠️ Limites
 
-- **Environ 90 à 95 % du mode histoire**, pas 100 % : la cuisine (choix des ingrédients), certaines quêtes à mécanique spéciale et les combats trop difficiles demandent d'intervenir à la main. Le bot s'arrête alors et garde une capture.
-- Testé uniquement sur le **client PC officiel, en français, en 1920 × 1080**, sous Windows 10/11.
-- Le PC ne doit pas se mettre en veille ni se verrouiller (éteindre l'écran avec son bouton ne pose pas de problème).
+- 📖 **90 à 95 % du mode histoire, pas 100 %** : la cuisine, certaines quêtes spéciales et les combats trop durs se font à la main. Le bot s'arrête alors proprement, avec une capture.
+- 🖥️ Testé uniquement sur le **client PC officiel, en français, en 1920 × 1080**, sous Windows 10 et 11.
+- 🌙 Pour la nuit : pas de mise en veille ni de verrouillage (éteindre l'écran, c'est OK).
 
-## Avertissement
+## ⚖️ Avertissement
 
-Ce projet est un exercice personnel de vision par ordinateur et d'automatisation. **L'utilisation d'un bot est contraire aux conditions d'utilisation du jeu** et peut entraîner une sanction du compte : chacun l'utilise sous sa propre responsabilité. Le projet n'est ni affilié à Netmarble ni approuvé par l'éditeur.
+Projet personnel d'apprentissage en vision par ordinateur et en automatisation. **Utiliser un bot est contraire aux conditions d'utilisation du jeu** et peut entraîner une sanction du compte : chacun l'utilise sous sa propre responsabilité. Ce projet n'est ni affilié à Netmarble ni approuvé par l'éditeur.
 
-## Technologies
+## 🛠️ Technologies
 
 | | |
 | --- | --- |
@@ -82,23 +85,19 @@ Ce projet est un exercice personnel de vision par ordinateur et d'automatisation
 | Capture et contrôle | mss, API Win32 (ctypes) |
 | Entraînement | PyTorch (CUDA), images fabriquées, garde-fou de validation |
 
-## Organisation
+## 📁 Organisation
 
 ```
-0_LANCER.bat        Lance le bot (le seul fichier à ouvrir au quotidien)
-INSTALLER.bat       Installe les modules Python (une seule fois)
-TUTO.md             Installation pas à pas
-_moteur/
-├── bot_7ds.py      Logique du bot : décisions, sécurités, équipe, rapport
-├── detecteur.py    Détecteur YOLO (ONNX) : renvoie les éléments vus à l'écran
-├── detecteur_7ds.onnx   Détecteur entraîné
-├── modele.pt       Même détecteur, au format d'entraînement
-└── img/            Modèles d'image exacts (victoire, SKIP, défaite...)
-outils/             Étiquetage, fabrication du jeu de données, réentraînement
-docs/               Démo et schéma
+0_LANCER.bat        ▶️ Lance le bot (le seul fichier à ouvrir au quotidien)
+INSTALLER.bat       🛠️ Installe les modules Python (une seule fois)
+TUTO.md             📘 Installation pas à pas
+_moteur/            🤖 Le bot : décisions, détecteur ONNX, modèles d'image
+outils/             🔥 Étiquetage, jeu de données, réentraînement
+docs/               🖼️ Bannière, démo et schéma
 ```
 
-## Contact
+## 📬 Contact
 
-- LinkedIn : [amir-chouchane](https://www.linkedin.com/in/amir-chouchane)
-- GitHub : [@Reiner916](https://github.com/Reiner916)
+- 💼 LinkedIn : [amir-chouchane](https://www.linkedin.com/in/amir-chouchane)
+- 🐙 GitHub : [@Reiner916](https://github.com/Reiner916)
+- 🌐 Portfolio : [amir-chouchane.vercel.app](https://amir-chouchane.vercel.app)
