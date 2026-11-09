@@ -1,0 +1,14 @@
+# Fichiers créés par le bot chez chaque joueur
+_moteur/captures/
+_moteur/journal.txt
+_moteur/reglages.json
+_moteur/bot.pid
+_moteur/img/perso_*.png
+_moteur/donnees/
+_moteur/runs/
+_moteur/sauvegardes/
+_moteur/a_entrainer
+_moteur/journal_entrainement.txt
+rapport.txt
+__pycache__/
+
