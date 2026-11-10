@@ -13,7 +13,7 @@
 > 🤖 Un bot qui joue **tout seul au mode histoire** de *The Seven Deadly Sins: Grand Cross* (client PC Netmarble).
 > Il **regarde l'écran comme un joueur** : un détecteur YOLO repère les boutons, les bulles de quête et les menus, le bot décide et clique. Il ne lit ni ne modifie rien dans le jeu.
 
-Projet personnel d'**Amir Chouchane**, étudiant en BTS SIO.
+Projet personnel d'**Amir Chouchane**, étudiant en informatique.
 
 <p align="center"><img src="docs/demo.gif" alt="Ce que voit le bot, étape par étape" width="85%" /></p>
 
