@@ -4,11 +4,12 @@ Pas besoin de connaître l'informatique : suis les étapes dans l'ordre.
 
 ## 1. Installer Python (une seule fois)
 
-1. Va sur **https://www.python.org/downloads/** et clique sur le gros bouton jaune **Download Python**.
+1. Va sur **https://www.python.org/downloads/release/python-31410/** et, tout en bas, clique sur **Windows installer (64-bit)**.
+   Prends bien **Python 3.14** : la toute dernière version (3.15) n'est pas encore compatible avec le bot.
 2. Ouvre le fichier téléchargé.
 3. **Important :** en bas de la première fenêtre, coche **« Add python.exe to PATH »**, puis clique sur **Install Now**.
 
-> 💡 Si l'installation du bot échoue plus tard (étape 3), ta version de Python est peut-être trop récente : installe **Python 3.13** depuis la même page.
+> 💡 Si l'installation du bot échoue plus tard (étape 3), ta version de Python est peut-être trop récente : installe **Python 3.14** avec le lien de l'étape 1, puis relance `INSTALLER.bat`.
 
 ## 2. Télécharger le bot
 
