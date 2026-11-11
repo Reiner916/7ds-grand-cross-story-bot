@@ -39,7 +39,7 @@ Projet personnel d'**Amir Chouchane**, étudiant en informatique.
 
 > 📘 Tutoriel pas à pas, sans connaissance en informatique : **[TUTO.md](TUTO.md)**
 
-1. 🐍 Installer [Python](https://www.python.org/downloads/) en cochant **« Add python.exe to PATH »**
+1. 🐍 Installer [Python 3.14](https://www.python.org/downloads/release/python-31410/) (pas 3.15, pas encore compatible) en cochant **« Add python.exe to PATH »**
 2. 📦 **Code → Download ZIP**, puis décompresser
 3. 🛠️ Double-cliquer sur **`INSTALLER.bat`** (une seule fois)
 4. 🎮 Lancer le jeu en **1920 × 1080, en français**, puis **clic droit sur `0_LANCER.bat` → Exécuter en tant qu'administrateur**
