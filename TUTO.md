@@ -73,7 +73,7 @@ Quand la 1re ligne du journal affiche **« Mise à jour programmée »**, appuie
 | Le bot ne démarre pas | Lance d'abord **`INSTALLER.bat`**, puis **`0_LANCER.bat`**. |
 | Le bot ne clique pas | Relance **`0_LANCER.bat`** avec un clic droit → **Exécuter en tant qu'administrateur**. |
 | Le bot clique à côté | Vérifie la résolution du jeu : **1920 × 1080**. |
-| Le bot s'arrête | Normal sur une défaite, la cuisine ou plus de potions : regarde la fin de la fenêtre noire, corrige à la main, puis **F8** pour relancer. |
+| Le bot s'arrête | Normal après 2 défaites de suite (le bot a déjà cliqué 2 fois sur **Reprendre** gratuit), sur la cuisine ou s'il n'y a plus de potions : regarde la fin de la fenêtre noire, corrige à la main, puis **F8** pour relancer. |
 | Le bot déplace tes meilleurs persos | Refais l'étape 6 (**F11** sur un écran d'équipe). |
 
 Le bot automatise **environ 90 à 95 % du mode histoire** : certaines quêtes spéciales (cuisine, mini-jeux) et les combats trop durs demandent un coup de main.

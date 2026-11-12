@@ -31,7 +31,7 @@ Projet personnel d'**Amir Chouchane**, étudiant en informatique.
 - 🗺️ **Suit la quête** du journal (principale ou secondaire) et parle aux personnages
 - 💬 **Passe les dialogues** et les cinématiques, même pendant les attaques spéciales
 - 🛡️ **Compose l'équipe** : *Choix auto*, puis place les héros imposés par la quête **sans toucher à tes 4 meilleurs persos**
-- ⚔️ **Lance les combats**, valide les victoires, ramasse les récompenses, utilise une potion d'endurance si besoin
+- ⚔️ **Lance les combats**, valide les victoires, ramasse les récompenses, utilise une potion d'endurance si besoin, et clique sur **Reprendre** (gratuit) après une défaite, 2 fois au plus
 - 🔁 **Se débloque tout seul** : reprise automatique, anti-boucle, fausses bulles ignorées
 - 📝 **Rapport de session** le matin (`rapport.txt`) : durée, combats, victoires, arrêts et leur cause
 

@@ -33,6 +33,8 @@ STOP_RIEN = 60        # rien d'utile depuis 60 s -> arrêt
 MEME_BOUTON_MAX = 4   # même bouton 4 fois de suite sans progrès -> arrêt
 EMPRUNT_APRES = 2     # 2 échecs "personnage requis" -> emprunt du héros
 LANCEMENTS_MAX = 4    # 4 échecs en 1 min -> arrêt
+REPRENDRE_MAX = 2     # défaite : au plus 2 « Reprendre » gratuits par combat, puis arrêt
+ATTENTE_FAILED = 5    # s pour laisser apparaître les boutons de l'écran FAILED (fondu)
 REPRISES_MAX = 3      # avant d'abandonner, 3 tentatives de dégagement (clics dans le vide + relance quête)
 CAPTURES_JOURS = 7    # les captures de plus de 7 jours sont effacées au démarrage
 PLACER_REQUIS = True  # héros requis "étrangers" déplacés en case 4 puis 3 (les persos protégés restent)
@@ -111,8 +113,9 @@ def recompense_visible(img):
     return cv2.matchTemplate(g[250:550, 700:1220], _QR, cv2.TM_CCOEFF_NORMED).max() > 0.8
 
 # ---------- Écrans reconnus par comparaison d'image (OK vert VICTORY, SKIP, FAILED) ----------
-_TPL = {n: cv2.imread(os.path.join(ICI, "img", n + ".png"), 0) for n in ("ok_vert", "skip", "failed")}
-_ZONE = {"ok_vert": ((700, 850, 1220, 1080), 0.9), "skip": ((1700, 60, 1920, 170), 0.65), "failed": ((600, 60, 1320, 330), 0.8)}
+_TPL = {n: cv2.imread(os.path.join(ICI, "img", n + ".png"), 0) for n in ("ok_vert", "skip", "failed", "reprendre_gratuit")}
+_ZONE = {"ok_vert": ((700, 850, 1220, 1080), 0.9), "skip": ((1700, 60, 1920, 170), 0.65), "failed": ((600, 60, 1320, 330), 0.8),
+         "reprendre_gratuit": ((700, 940, 1100, 1060), 0.8)}   # badge « Gratuit » du bouton Reprendre (écran FAILED)
 def trouver(img, nom):
     """Centre (en pixels de l'image) du modèle 'nom' s'il est à l'écran, sinon None."""
     H, W = img.shape[:2]
@@ -237,7 +240,7 @@ class Bot:
     def __init__(self):
         self.actif = False; self.hwnd = 0
         self.reg = lire_reglages()
-        self.stats = dict(debut=None, combats=0, victoires=0, recompenses=0, potions=0, equipes=0, reprises=0, arrets=[])
+        self.stats = dict(debut=None, combats=0, victoires=0, recompenses=0, potions=0, equipes=0, reprises=0, defaites_reprises=0, arrets=[])
         self.dernier_rapport = time.time()
         self.reset()
 
@@ -254,6 +257,7 @@ class Bot:
         self.reprises = 0; self.dernier_journal = None
         self.t_marche = 0; self.hist_bulles = []      # [(x, y, t)] clics de bulles récents
         self.ok_apres_relance = 0; self.img = None
+        self.reprendre_faits = 0; self.t_failed = 0      # défaite : « Reprendre » gratuits cliqués sur ce combat
 
     def ecran(self):
         x, y, w, h = zone_client(self.hwnd)
@@ -277,6 +281,7 @@ class Bot:
                   f"Début : {datetime.fromtimestamp(st['debut']):%d/%m %H:%M}   Durée : {h} h {m:02d}",
                   f"Combats lancés : {st['combats']}   Victoires : {st['victoires']}   Récompenses de quête : {st['recompenses']}",
                   f"Potions d'endurance utilisées : {st['potions']}   Équipes réorganisées : {st['equipes']}   Reprises auto : {st['reprises']}",
+                  f"Défaites reprises (Reprendre gratuit) : {st['defaites_reprises']}",
                   f"Arrêts : {len(st['arrets'])}"] + [f"  - {a}" for a in st["arrets"]]
         try: open(RAPPORT, "w", encoding="utf-8").write("\n".join(lignes) + "\n")
         except Exception: pass
@@ -300,6 +305,21 @@ class Bot:
                 log(f"déplacement refusé par le jeu, équipe laissée telle quelle ({texte_equipe(eq2)})"); return
             eq = eq2; self.stats["equipes"] += 1
 
+    def defaite(self, img, ox, oy, w, h, maint):
+        """Écran FAILED : « Reprendre » s'il est gratuit (l'ennemi garde ses PV), au plus REPRENDRE_MAX fois ; sinon arrêt."""
+        if maint - self.t_failed > 20: self.t_failed = maint               # nouvel écran FAILED
+        if self.reprendre_faits >= REPRENDRE_MAX:
+            return self.stop(f"Défaite : {REPRENDRE_MAX} reprises gratuites déjà utilisées, équipe trop faible ?", img)
+        p = trouver(img, "reprendre_gratuit")
+        if p:
+            self.reprendre_faits += 1; self.stats["defaites_reprises"] += 1
+            cliquer(ox + p[0], oy + p[1] + 12 * h / 1080)                  # bouton Reprendre, juste sous le badge
+            log(f"défaite : clic Reprendre (gratuit, {self.reprendre_faits}/{REPRENDRE_MAX})")
+            self.dernier_utile = maint; self.reprises = 0; self.t_failed = 0
+            time.sleep(PAUSE_CLIC * 2); return
+        if maint - self.t_failed < ATTENTE_FAILED: return                   # boutons encore en fondu : on attend
+        return self.stop("Défaite (écran FAILED) : pas de reprise gratuite, équipe trop faible ?", img)
+
     def case_emprunt(self, img):
         """Case la plus à droite qui n'est pas occupée par un héros requis."""
         eq = analyse_equipe(img)
@@ -319,7 +339,7 @@ class Bot:
         if not (nom == "aller" and self.meme_bouton > 2):      # 3e "Aller" d'affilée : plus compté comme progrès -> reprise auto
             self.dernier_utile = maint; self.reprises = 0
         if nom == "aller": self.t_marche = maint
-        if nom == "ok_victoire": self.stats["victoires"] += 1
+        if nom == "ok_victoire": self.stats["victoires"] += 1; self.reprendre_faits = 0
         _, _, _, hh = zone_client(self.hwnd)
         if nom == "ok" and maint - self.t_en_avant < 5 and cy * 1080 / max(hh, 1) > 790:   # "Utiliser" de la popup potion (plus bas qu'un OK normal)
             self.stats["potions"] += 1; self.t_potion = maint; log("potion d'endurance utilisée")
@@ -336,7 +356,7 @@ class Bot:
         if maint - self.dernier_rapport > 1800: self.dernier_rapport = maint; self.rapport()
 
         if a("cuisine"): return self.stop("Cuisine : choisis les ingrédients à la main", img)
-        if trouver(img, "failed"): return self.stop("Défaite (écran FAILED) : équipe trop faible ?", img)
+        if trouver(img, "failed"): return self.defaite(img, ox, oy, w, h, maint)
 
         # 1) popups OK
         if a("ok"): return self.clic("ok", *a("ok")[:2], ox, oy)
@@ -393,7 +413,7 @@ class Bot:
                 log(f"emprunt du héros requis -> case {k+1} (la plus à droite sans héros requis)")
                 self.emprunt_fait = True; return
             self.lancements.append(maint)
-            self.clic("en_avant", ex, ey, ox, oy); self.t_en_avant = time.time()
+            self.clic("en_avant", ex, ey, ox, oy); self.t_en_avant = time.time(); self.reprendre_faits = 0
             self.equipe_faite = False; self.placement_fait = False
             return
 
@@ -473,7 +493,7 @@ class Bot:
         print(f"  combat (icône pause) : {'OUI' if combat_visible(img) else 'non'}")
         print(f"  quest reward : {'OUI' if recompense_visible(img) else 'non'}")
         if "journal" in d: print(f"  quête suivie ({QUETE_SUIVIE}) cliquée en : {tuple(int(v) for v in position_quete(img, *d['journal'][0][:2]))}")
-        for n in ("ok_vert", "skip", "failed"): print(f"  {n} : {'OUI' if trouver(img, n) else 'non'}")
+        for n in ("ok_vert", "skip", "failed", "reprendre_gratuit"): print(f"  {n} : {'OUI' if trouver(img, n) else 'non'}")
         if "en_avant" in d: print(f"  équipe : {texte_equipe(analyse_equipe(img))}")
         for c in CLASSES:
             if c in d: print(f"  {c:12s} TROUVÉ  ({d[c][0][2]:.0%})")
